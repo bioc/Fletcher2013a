@@ -1,0 +1,10 @@
+export(
+"Fletcher2013pipeline.limma",
+"Fletcher2013pipeline.deg",
+"Fletcher2013pipeline.pca",
+"Fletcher2013pipeline.supp"
+)
+importFrom(gplots, plotCI, barplot2)
+importFrom(VennDiagram,venn.diagram)
+importFrom(Biobase,notes,fData,pData,exprs)
+importFrom(grid,grid.draw)

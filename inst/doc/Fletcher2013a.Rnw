@@ -1,0 +1,217 @@
+%\VignetteIndexEntry{Main vignette:Fletcher2013a}
+%\VignetteKeywords{Fletcher2013a}
+%\VignettePackage{Fletcher2013a}
+
+\documentclass[11pt]{article}
+\usepackage{Sweave,fullpage}
+\usepackage{float}
+\SweaveOpts{keep.source=TRUE,eps=FALSE,width=4,height=4.5}
+\newcommand{\Robject}[1]{\texttt{#1}}
+\newcommand{\Rpackage}[1]{\textit{#1}}
+\newcommand{\Rfunction}[1]{\textit{#1}}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{hyperref}
+\definecolor{linkcolor}{rgb}{0.0,0.0,0.75}
+\hypersetup{colorlinks=true, linkcolor=linkcolor}
+\bibliographystyle{unsrt}
+
+\title{
+Vignette for \emph{Fletcher2013a}: gene expression data from breast cancer cells after FGFR2 signalling.
+}
+\author{
+Mauro AA Castro\footnote{joint first authors}, Michael NC Fletcher\footnotemark[1], Xin Wang, Ines de Santiago, \\ 
+Martin O'Reilly, Suet-Feung Chin, Oscar M Rueda, Carlos Caldas, \\
+Bruce AJ Ponder, Florian Markowetz and Kerstin B Meyer
+\thanks{Cancer Research UK - Cambridge Research Institute, Robinson Way Cambridge, CB2 0RE, UK.} \\
+\texttt{\small florian.markowetz@cancer.org.uk} \\
+\texttt{\small kerstin.meyer@cancer.org.uk} \\
+}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\tableofcontents
+
+<<Ropts, echo=FALSE, results=hide>>=
+options(width=70)
+@ 
+
+%----------------------------
+%----------------------------
+\newpage
+%----------------------------
+%----------------------------
+
+\section{Description}
+
+The package \Rpackage{Fletcher2013a} contains time-course gene expression data from MCF-7 cells treated under different experimental systems in order to perturb FGFR2 signalling (further details in the documentation of each dataset). The data comes from Fletcher et al. \cite{Fletcher2013} (Cancer Research UK, Cambridge Research Institute, University of Cambridge, UK) where further details about the background and the experimental design of the study can be found. The R scripts provided in this vignette help to reproduce the differential expression analysis, including some initial checks assessing the consistency of the expression patterns across the sample groups. The second part of this study is available in the package \Rpackage{Fletcher2013b}, which has been separated for ease of data distribution. The package \Rpackage{Fletcher2013b} reproduces the network analysis as described in Fletcher et al. \cite{Fletcher2013} based on publicly available data and the dataset presented in this package.
+
+\section{Differential expression analysis}
+
+The log2 gene expression data used in this vignette is presented in the form of 3 \Robject{ExpressionSet} objects called \Robject{Exp1}, \Robject{Exp2} and \Robject{Exp3}, all containing detailed phenotype information needed to run the differential expression analysis.
+
+\begin{small}
+<<label=Load gene expression datasets, eval=TRUE,results=hide>>=
+  library(Fletcher2013a)
+  data(Exp1)
+  data(Exp2)
+  data(Exp3)
+@ 
+\end{small}
+
+The differentially expressed (DE) genes are assessed by the linear modelling framework in the \emph{limma} package \cite{Liu22042005}. Here the complete limma analysis is executed in a 4-step pipeline that (\textbf{\textit{i}}) extracts the gene expression data and all relevant information from the \Robject{ExpressionSet} objects, (\textbf{\textit{ii}}) prepares the design and fits the linear model, (\textbf{\textit{iii}}) sets the contrasts according to the experimental groups and (\textbf{\textit{iv}}) runs the eBayes correction and decides on the significance of each contrast for a p-value < 1e-2 and global adjustment method = 'BH'.
+
+\begin{small}
+<<label=Run limma pipeline, eval=FALSE,results=hide>>=
+  Fletcher2013pipeline.limma(Exp1)
+  Fletcher2013pipeline.limma(Exp2)
+  Fletcher2013pipeline.limma(Exp3)
+@ 
+\end{small}
+
+Having fitted the linear model with default options, the pipeline should save all results in the current working directory in the form of 3 data files called \Robject{Exp1limma.rda}, \Robject{Exp2limma.rda} and \Robject{Exp3limma.rda}, including a set of figures showing the number of DE genes inferred in each analysis (see Figures \ref{fig1}a, \ref{fig2}a and \ref{fig3}a).
+
+\section{Principal components analysis}
+
+In order to assess the experimental variation and the consistency among the sample groups, the pipeline performs a principal components analysis (PCA) on the gene expression matrices taken from the set of differentially expressed genes derived from the limma analysis. The PCA pipeline uses the R function \Rfunction{prcomp} with default options \cite{Rcore}.
+
+\begin{small}
+<<label=Run PCA analysis, eval=FALSE,results=hide>>=
+  Fletcher2013pipeline.pca(Exp1)
+  Fletcher2013pipeline.pca(Exp2)
+  Fletcher2013pipeline.pca(Exp3)
+@
+\end{small}
+
+The PCA pipeline should save all results in the current working directory in the form of 3 pdf files showing the two first principal components of each experimental system (see Figures \ref{fig1}b, \ref{fig2}b and \ref{fig3}b).\\\\
+
+
+%%%%%%
+%Exp1%
+%%%%%%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{fig1.pdf}
+\caption{\label{fig1}%
+\textbf{Endogenous FGFRs perturbation experiments.} 
+Summary of the differential expression analysis showing significant gene counts for P<0.01. (a) Bar charts depicting the number of probes significantly deregulated at each time point after stimulation. (b) PCA analysis of variation observed for the differentially expressed genes (n=2141) in the microarray analysis.
+}
+\end{center}
+\end{figure}
+
+\clearpage
+
+%%%%%%
+%Exp2%
+%%%%%%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{fig2.pdf}
+\caption{\label{fig2}%
+\textbf{iF2 construct perturbation experiments.} 
+Summary of the differential expression analysis showing significant gene counts for P<0.01. (a) Bar charts depicting the number of probes significantly deregulated at each time point after stimulation. (b) PCA analysis of variation observed for the DE genes (n=7647) in the microarray analysis. The letters a-f and a'-f' indicate technical repeats included in the microarray experiments.
+}
+\end{center}
+\end{figure}
+
+\clearpage
+
+%%%%%%
+%Exp3%
+%%%%%%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{fig3.pdf}
+\caption{\label{fig3}%
+\textbf{FGFR2b perturbation experiments.} 
+Summary of the differential expression analysis showing significant gene counts for P<0.01. (a) Bar charts depicting the number of probes significantly deregulated at each time point after stimulation. (b) PCA analysis of variation observed for the DE genes (n=2519) in the microarray analysis.}
+\end{center}
+\end{figure}
+
+
+%----------------------------
+%----------------------------
+\clearpage
+%----------------------------
+%----------------------------
+
+
+\section{Follow-up on differentially expressed genes}
+
+A pre-processed differential expression dataset is also available for the function \Rfunction{Fletcher2013pipeline.deg}, which can be used to retrieve the DE genes inferred in the limma analysis, as for example:
+
+\begin{small}
+<<label=Get DE gene lists, eval=TRUE>>=
+  deExp1 <- Fletcher2013pipeline.deg(what="Exp1")
+  deExp2 <- Fletcher2013pipeline.deg(what="Exp2")
+  deExp3 <- Fletcher2013pipeline.deg(what="Exp3")
+@ 
+\end{small}
+
+\begin{small}
+<<label=Get DE gene lists, eval=TRUE>>=
+  names(deExp1)
+  names(deExp2)
+  names(deExp3)
+@ 
+\end{small}
+
+This wrapper function extracts consolidated gene lists organized according to the limma contrasts, including random gene lists that can be used in subsequent analyses. \textbf{DT}: DE genes in vehicle time-course contrasts; \textbf{E2}: DE genes in E2 vs. vehicle contrasts; \textbf{E2FGF10}: DE genes in E2+FGF10 vs. E2 contrasts; \textbf{E2AP20187}: DE genes in E2+AP20187 vs. E2 contrasts; \textbf{Tet} DE genes in Tet vs. vehicle contrasts (i.e. PlusTet.VEH vs. MinusTet.VEH); \textbf{TetDT}: DE genes in Tet time-course contrasts; \textbf{TetE2}: DE genes in Tet+E2 vs. Tet contrasts; \textbf{TetE2FGF10}: DE genes in Tet+E2+FGF10 vs. Tet+E2 contrasts; \textbf{random}: random gene lists (for a diagram representing all limma contrasts, please see Supplementary Figures 1, 2 and 3 in \cite{Fletcher2013}).\\
+
+Next we plot the overlap among three of these lists summarizing the number of DE genes called in each of the experiments (Figure \ref{fig4}a).
+
+\begin{small}
+<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
+  library(VennDiagram)
+  Fletcher2013pipeline.supp()
+@
+\end{small}
+
+Additionally, the microarray data were confirmed in independent biological replicates by performing quantitative RT-PCR for a number of selected genes. IL8 is one of the most strongly induced genes and the previous pipeline also reproduces the main results from the follow-up on this gene. The increased IL8 mRNA expression is detected similarly by two microarray probes (Figure \ref{fig4}b) and by RT-PCR (Figure \ref{fig4}c). Furthermore, in line with increased expression we find that IL-8 secretion increased after FGF10 stimulation (Figure \ref{fig4}d). This secretion was blocked by PD173074 confirming that the effect is FGFR specific. The weighted Venn can be reproduced using the R-package \Robject{Vennerable}) (see \textit{package installation} section):
+
+\begin{small}
+<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
+  #note: in order to run this option please download and install the source code
+  #for the R-package Vennerable from R-Forge (http://R-Forge.R-project.org)
+  library(Vennerable)
+  vv <- list(Exp1=deExp1$E2FGF10, Exp2=deExp2$E2AP20187, Exp3=deExp3$TetE2FGF10)
+  plotVenn(Venn(vv), doWeights=TRUE)
+@
+\end{small}
+
+
+%%%%%%
+%Fig4%
+%%%%%%
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{fig4.pdf}
+\caption{\label{fig4}%
+\textbf{Follow-up on differentially expressed genes.}
+(a) Venn diagram depicting the overlap between the genes deregulated after FGFR2 signalling in the experimental systems \emph{Exp1-3}. Each list of FGFR2 regulated genes was derived as a contrast between the FGFR2 stimulus with estradiol versus estradiol only treatment to obtain the FGFR2 specific response. (b-d) Confirmation of gene expression microarray response by RT-PCR and protein expression (see Fletcher et al. \cite{Fletcher2013} for additional details).}
+\end{center}
+\end{figure}
+
+%----------------------------
+%----------------------------
+\clearpage
+%----------------------------
+%----------------------------
+
+\section{Session information}
+
+\begin{scriptsize}
+<<label=Session information, eval=TRUE, echo=FALSE>>=
+print(sessionInfo(), locale=FALSE)
+@
+\end{scriptsize}
+
+\newpage
+
+\bibliography{bib}
+
+\end{document}
+
