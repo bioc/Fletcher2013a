@@ -109,7 +109,7 @@ Fletcher2013pipeline.pca<-function(exprSet){
 ###############################################################################
 ### Pipeline function to extrac DE gene lists from limma analysis          
 ###############################################################################
-Fletcher2013pipeline.deg<-function(what="Exp1", idtype="probeid",response="all"){
+Fletcher2013pipeline.deg<-function(what="Exp1", idtype="probeid",response="all", mode="all"){
   opt<-c('Exp1','Exp2','Exp3')%in%what
   if(sum(opt)!=1)
     stop("'what' should be any of 'Exp1', 'Exp2' and 'Exp3'!")
@@ -117,14 +117,17 @@ Fletcher2013pipeline.deg<-function(what="Exp1", idtype="probeid",response="all")
     stop("'idtype' should be 'probeid' or 'entrez'!")
   if(sum(response%in%c("all","early","late"))!=1)
     stop("'response' should be 'all', 'early' or 'late'!")
+  if(sum(mode%in%c("all","positive","negative"))!=1)
+    stop("'mode' should be 'all', 'positive' or 'negative'!")
+  mode<-substr(mode,1,3)
   if(which(opt)==1){
-    sig<-Exp1signatures(idtype=idtype,response=response)
+    sig<-Exp1signatures(idtype=idtype,response=response,mode=mode)
   }
   else if(which(opt)==2){
-    sig<-Exp2signatures(idtype=idtype,response=response)
+    sig<-Exp2signatures(idtype=idtype,response=response,mode=mode)
   }
   else if(which(opt)==3){
-    sig<-Exp3signatures(idtype=idtype,response=response)
+    sig<-Exp3signatures(idtype=idtype,response=response,mode=mode)
   }
   return(sig)
 }

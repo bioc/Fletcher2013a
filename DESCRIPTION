@@ -1,12 +1,12 @@
 Package: Fletcher2013a
-Title: Gene expression data from breast cancer cells under FGFR2
-        signalling perturbation.
-Version: 0.99.4
+Title: Gene expression data from breast cancer cells under FGFR2 signalling perturbation.
+Version: 0.99.5
 Author: Mauro Castro, Michael Fletcher, Florian Markowetz and Kerstin Meyer.
-Description: The package Fletcher2013a contains time-course gene expression data from MCF-7 cells treated under different experimental systems in order to perturb FGFR2 signalling. The data comes from Fletcher et al. (to appear in Nature Communications) where further details about the background and the experimental design of the study can be found.
+Description: The package Fletcher2013a contains time-course gene expression data from MCF-7 cells treated under different experimental systems in order to perturb FGFR2 signalling. The data comes from Fletcher et al. (Nature Comms 4:2464, 2013) where further details about the background and the experimental design of the study can be found.
 Maintainer: Mauro Castro <mauro.a.castro@gmail.com>
 Depends: R (>= 2.15), limma
 Imports: Biobase ,VennDiagram, gplots,grid
 License: GPL (>= 2)
 biocViews: ExperimentData, RNAExpressionData, Cancer
+URL: http://dx.doi.org/10.1038/ncomms3464
 InstallableEverywhere: yes

@@ -4,6 +4,7 @@ export(
 "Fletcher2013pipeline.pca",
 "Fletcher2013pipeline.supp"
 )
+import(limma)
 importFrom(gplots, plotCI, barplot2)
 importFrom(VennDiagram,venn.diagram)
 importFrom(Biobase,notes,fData,pData,exprs)

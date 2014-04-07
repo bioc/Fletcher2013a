@@ -62,7 +62,7 @@ The log2 gene expression data used in this vignette is presented in the form of 
 @ 
 \end{small}
 
-The differentially expressed (DE) genes are assessed by the linear modelling framework in the \emph{limma} package \cite{Liu22042005}. Here the complete limma analysis is executed in a 4-step pipeline that (\textbf{\textit{i}}) extracts the gene expression data and all relevant information from the \Robject{ExpressionSet} objects, (\textbf{\textit{ii}}) prepares the design and fits the linear model, (\textbf{\textit{iii}}) sets the contrasts according to the experimental groups and (\textbf{\textit{iv}}) runs the eBayes correction and decides on the significance of each contrast for a p-value < 1e-2 and global adjustment method = 'BH'.
+The differentially expressed (DE) genes are assessed by the linear modelling framework in the \emph{limma} package \cite{Gentleman2005}. Here the complete limma analysis is executed in a 4-step pipeline that (\textbf{\textit{i}}) extracts the gene expression data and all relevant information from the \Robject{ExpressionSet} objects, (\textbf{\textit{ii}}) prepares the design and fits the linear model, (\textbf{\textit{iii}}) sets the contrasts according to the experimental groups and (\textbf{\textit{iv}}) runs the eBayes correction and decides on the significance of each contrast for a p-value < 1e-2 and global adjustment method = 'BH'.
 
 \begin{small}
 <<label=Run limma pipeline, eval=FALSE,results=hide>>=

@@ -13,10 +13,9 @@ Pipeline functions to reproduce results in Fletcher et al. 2013.
 }
 
 \usage{
- Fletcher2013pipeline.limma(exprSet, par=list(method="global", adjust.method="BH", 
-                            p.value=1e-2, lfc=0))
+ Fletcher2013pipeline.limma(exprSet, par=list(method="global", adjust.method="BH", p.value=1e-2, lfc=0))
  Fletcher2013pipeline.pca(exprSet)
- Fletcher2013pipeline.deg(what="Exp1", idtype="probeid", response="all")
+ Fletcher2013pipeline.deg(what="Exp1", idtype="probeid", response="all", mode="all")
  Fletcher2013pipeline.supp()
 }
 
@@ -40,7 +39,11 @@ a single character value specifying a signature report option: "probeid" or "ent
 }
 
 \item{response}{
-a single character value specifying how signatures should be consolidated across time points: "early","late" or "all". (see \code{Details} for a detailed time-course dataset).
+a single character value specifying how signatures should be consolidated across time points: "early", "late" or "all". (see \code{Details} for a detailed time-course dataset).
+}
+
+\item{mode}{
+a single character value specifying how signatures should be consolidated regarding the mode of action: "positive", "negative" or "all". (see \code{Details} for a detailed time-course dataset).
 }
 
 }
@@ -69,7 +72,7 @@ All results will be saved in the current work directory.
 }
 
 \source{
-Michael NC Fletcher, Mauro AA Castro, Suet-Feung Chin, Oscar Rueda, Xin Wang, Carlos Caldas, Bruce AJ Ponder, Florian Markowetz, Kerstin B Meyer. Master regulators of FGFR2 signalling and breast cancer risk. Journal paper (submitted). 2012.
+Michael NC Fletcher, Mauro AA Castro, Suet-Feung Chin, Oscar Rueda, Xin Wang, Carlos Caldas, Bruce AJ Ponder, Florian Markowetz, Kerstin B Meyer. Master regulators of FGFR2 signalling and breast cancer risk. Nature Communications, 4:2464, 2013.
 }
 
 \author{
