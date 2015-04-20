@@ -1,6 +1,7 @@
 \name{siESR1}
 \docType{data}
 \alias{siESR1}
+\alias{siESR1limma}
 
 \title{Knockdown dataset: siESR1 in MCF-7 cells.}
 
@@ -28,9 +29,16 @@ corresponding constrasts can be retrived by \code{notes(siESR1)}
 Park YY, Kim K, Kim SB, Hennessy BT et al. Reconstruction of nuclear receptor network reveals that NR2E3 is a novel upstream regulator of ESR1 in breast cancer. EMBO Mol Med 2012 Jan;4(1):52-67.
 }
 
+\note{
+The differential expression analysis documented in the vignette is available at 'siESR1limma'.
+}
+
 \examples{
   data(siESR1)
   #notes(siESR1)
+  
+  #limma pre-processed dataset
+  #data(siESR1limma)
 }
 
 \keyword{datasets}

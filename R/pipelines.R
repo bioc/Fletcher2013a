@@ -28,33 +28,38 @@ Fletcher2013pipeline.limma<-function(exprSet, par=list(method="global", adjust.m
   #Extract results set exp. names!
   reslimma <- extractResults(myContrasts,contrastsFit,resultsFit)
   if(elab==1){
-    reslimma$Exp1limma<-"Endogenous FGFRs experiments"
-    plotExpDeg(reslimma)
+    Exp1limma<-reslimma
+    Exp1limma$info.Exp1limma<-"Endogenous FGFRs experiments"
+    plotExpDeg(Exp1limma)
     cat("-Fig1(a) generated!\n")
-    save(reslimma,file="Exp1limma.rda")
+    save(Exp1limma,file="Exp1limma.rda")
     cat("-Exp1limma data file generated!\n")
   }
   else if(elab==2){
-    reslimma$Exp2limma<-"iF2 construct experiments"
-    plotExpDeg(reslimma)
+    Exp2limma<-reslimma
+    Exp2limma$info.Exp2limma<-"iF2 construct experiments"
+    plotExpDeg(Exp2limma)
     cat("-Fig2(a) generated!\n")
-    save(reslimma,file="Exp2limma.rda")
+    save(Exp2limma,file="Exp2limma.rda")
     cat("-Exp2limma data file generated!\n")
   }
   else if(elab==3){
-    reslimma$Exp3limma<-"FGFR2b over-expression experiments" 
-    plotExpDeg(reslimma)
+    Exp3limma<-reslimma
+    Exp3limma$info.Exp3limma<-"FGFR2b over-expression experiments" 
+    plotExpDeg(Exp3limma)
     cat("-Fig3(a) generated!\n")
-    save(reslimma,file="Exp3limma.rda")
+    save(Exp3limma,file="Exp3limma.rda")
     cat("-Exp3limma data file generated!\n")
   } else if(elab==4){
-    reslimma$siRNAlimma<-"siRNA experiments: siPTTG1, siSPDEF, siE2F2 and siELF3"
-    save(reslimma,file="siOTHERSlimma.rda")
+    siOTHERSlimma<-reslimma
+    siOTHERSlimma$info.siOTHERSlimma<-"siRNA experiments: siPTTG1, siSPDEF, siE2F2 and siELF3"
+    save(siOTHERSlimma,file="siOTHERSlimma.rda")
     cat("-siOTHERSlimma file generated!\n")
   } else if(elab==5){
-    reslimma$siRNAlimma<-"siESR1 dataset"
-    colnames(reslimma$deg)<-c("PROBEID","SYMBOL","ENTREZ","coef","p.value","degenes")
-    save(reslimma,file="siESR1limma.rda")
+    siESR1limma<-reslimma
+    siESR1limma$info.siESR1limma<-"siESR1 dataset"
+    colnames(siESR1limma$deg)<-c("PROBEID","SYMBOL","ENTREZ","coef","p.value","degenes")
+    save(siESR1limma,file="siESR1limma.rda")
     cat("-siESR1limma file generated!\n")
   }
   cat("-data preprocessing finished!\n\n")

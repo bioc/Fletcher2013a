@@ -72,7 +72,21 @@ The differentially expressed (DE) genes are assessed by the linear modelling fra
 @ 
 \end{small}
 
-Having fitted the linear model with default options, the pipeline should save all results in the current working directory in the form of 3 data files called \Robject{Exp1limma.rda}, \Robject{Exp2limma.rda} and \Robject{Exp3limma.rda}, including a set of figures showing the number of DE genes inferred in each analysis (see Figures \ref{fig1}a, \ref{fig2}a and \ref{fig3}a).
+Having fitted the linear model with default options, the pipeline should save all results in the current working directory in the form of 3 data files called \Robject{Exp1limma.rda}, \Robject{Exp2limma.rda} and \Robject{Exp3limma.rda}, including a set of figures showing the number of DE genes inferred in each analysis (see Figures \ref{fig1}a, \ref{fig2}a and \ref{fig3}a). 
+
+\section{E2 and FGFR2 signatures}
+
+A pre-processed differential expression dataset is also available for the function Fletcher2013pipeline.deg, which can be used to retrieve the DE genes inferred in the limma analysis:
+
+\begin{small}
+<<label=Get DE gene lists, eval=TRUE>>=
+  deExp1 <- Fletcher2013pipeline.deg(what="Exp1")
+  deExp2 <- Fletcher2013pipeline.deg(what="Exp2")
+  deExp3 <- Fletcher2013pipeline.deg(what="Exp3")
+@ 
+\end{small}
+
+This wrapper function extracts consolidated gene lists organized according to the limma contrasts, including random gene lists that can be used in subsequent analyses. \textbf{DT}: DE genes in vehicle time-course contrasts; \textbf{E2}: DE genes in E2 vs. vehicle contrasts; \textbf{E2FGF10}: DE genes in E2+FGF10 vs. E2 contrasts; \textbf{E2AP20187}: DE genes in E2+AP20187 vs. E2 contrasts; \textbf{Tet} DE genes in Tet vs. vehicle contrasts (i.e. PlusTet.VEH vs. MinusTet.VEH); \textbf{TetDT}: DE genes in Tet time-course contrasts; \textbf{TetE2}: DE genes in Tet+E2 vs. Tet contrasts; \textbf{TetE2FGF10}: DE genes in Tet+E2+FGF10 vs. Tet+E2 contrasts; \textbf{random}: random gene lists (for a diagram representing all limma contrasts, please see Supplementary Figures 1, 2 and 3 in \cite{Fletcher2013}).
 
 \section{Principal components analysis}
 
@@ -86,8 +100,36 @@ In order to assess the experimental variation and the consistency among the samp
 @
 \end{small}
 
-The PCA pipeline should save all results in the current working directory in the form of 3 pdf files showing the two first principal components of each experimental system (see Figures \ref{fig1}b, \ref{fig2}b and \ref{fig3}b).\\\\
+The PCA pipeline should save all results in the current working directory in the form of 3 pdf files showing the two first principal components of each experimental system (see Figures \ref{fig1}b, \ref{fig2}b and \ref{fig3}b).
 
+\section{Follow-up on differentially expressed genes}
+
+Next we plot the overlap among three of these lists summarizing the number of DE genes called in each of the experiments (Figure \ref{fig4}a).
+
+\begin{small}
+<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
+  library(VennDiagram)
+  Fletcher2013pipeline.supp()
+@
+\end{small}
+
+Additionally, the microarray data were confirmed in independent biological replicates by performing quantitative RT-PCR for a number of selected genes. IL8 is one of the most strongly induced genes and the previous pipeline also reproduces the main results from the follow-up on this gene. The increased IL8 mRNA expression is detected similarly by two microarray probes (Figure \ref{fig4}b) and by RT-PCR (Figure \ref{fig4}c). Furthermore, in line with increased expression we find that IL-8 secretion increased after FGF10 stimulation (Figure \ref{fig4}d). This secretion was blocked by PD173074 confirming that the effect is FGFR specific. The weighted Venn can be reproduced using the R-package \Robject{Vennerable}) (see \textit{package installation} section):
+
+\begin{small}
+<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
+  #note: in order to run this option, the source code for the R-package Vennerable
+  #should be installed from the R-Forge repository (http://R-Forge.R-project.org)
+  library(Vennerable)
+  vv <- list(Exp1=deExp1$E2FGF10, Exp2=deExp2$E2AP20187, Exp3=deExp3$TetE2FGF10)
+  plotVenn(Venn(vv), doWeights=TRUE)
+@
+\end{small}
+
+%----------------------------
+%----------------------------
+\clearpage
+%----------------------------
+%----------------------------
 
 %%%%%%
 %Exp1%
@@ -131,57 +173,7 @@ Summary of the differential expression analysis showing significant gene counts 
 \end{center}
 \end{figure}
 
-
-%----------------------------
-%----------------------------
 \clearpage
-%----------------------------
-%----------------------------
-
-
-\section{Follow-up on differentially expressed genes}
-
-A pre-processed differential expression dataset is also available for the function \Rfunction{Fletcher2013pipeline.deg}, which can be used to retrieve the DE genes inferred in the limma analysis, as for example:
-
-\begin{small}
-<<label=Get DE gene lists, eval=TRUE>>=
-  deExp1 <- Fletcher2013pipeline.deg(what="Exp1")
-  deExp2 <- Fletcher2013pipeline.deg(what="Exp2")
-  deExp3 <- Fletcher2013pipeline.deg(what="Exp3")
-@ 
-\end{small}
-
-\begin{small}
-<<label=Get DE gene lists, eval=TRUE>>=
-  names(deExp1)
-  names(deExp2)
-  names(deExp3)
-@ 
-\end{small}
-
-This wrapper function extracts consolidated gene lists organized according to the limma contrasts, including random gene lists that can be used in subsequent analyses. \textbf{DT}: DE genes in vehicle time-course contrasts; \textbf{E2}: DE genes in E2 vs. vehicle contrasts; \textbf{E2FGF10}: DE genes in E2+FGF10 vs. E2 contrasts; \textbf{E2AP20187}: DE genes in E2+AP20187 vs. E2 contrasts; \textbf{Tet} DE genes in Tet vs. vehicle contrasts (i.e. PlusTet.VEH vs. MinusTet.VEH); \textbf{TetDT}: DE genes in Tet time-course contrasts; \textbf{TetE2}: DE genes in Tet+E2 vs. Tet contrasts; \textbf{TetE2FGF10}: DE genes in Tet+E2+FGF10 vs. Tet+E2 contrasts; \textbf{random}: random gene lists (for a diagram representing all limma contrasts, please see Supplementary Figures 1, 2 and 3 in \cite{Fletcher2013}).\\
-
-Next we plot the overlap among three of these lists summarizing the number of DE genes called in each of the experiments (Figure \ref{fig4}a).
-
-\begin{small}
-<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
-  library(VennDiagram)
-  Fletcher2013pipeline.supp()
-@
-\end{small}
-
-Additionally, the microarray data were confirmed in independent biological replicates by performing quantitative RT-PCR for a number of selected genes. IL8 is one of the most strongly induced genes and the previous pipeline also reproduces the main results from the follow-up on this gene. The increased IL8 mRNA expression is detected similarly by two microarray probes (Figure \ref{fig4}b) and by RT-PCR (Figure \ref{fig4}c). Furthermore, in line with increased expression we find that IL-8 secretion increased after FGF10 stimulation (Figure \ref{fig4}d). This secretion was blocked by PD173074 confirming that the effect is FGFR specific. The weighted Venn can be reproduced using the R-package \Robject{Vennerable}) (see \textit{package installation} section):
-
-\begin{small}
-<<label=Plot overlap among FGFR2 signatures, eval=FALSE, results=hide>>=
-  #note: in order to run this option please download and install the source code
-  #for the R-package Vennerable from R-Forge (http://R-Forge.R-project.org)
-  library(Vennerable)
-  vv <- list(Exp1=deExp1$E2FGF10, Exp2=deExp2$E2AP20187, Exp3=deExp3$TetE2FGF10)
-  plotVenn(Venn(vv), doWeights=TRUE)
-@
-\end{small}
-
 
 %%%%%%
 %Fig4%

@@ -1,6 +1,7 @@
 \name{siOTHERS}
 \docType{data}
 \alias{siOTHERS}
+\alias{siOTHERSlimma}
 
 \title{Knockdown dataset: siPTTG1, siSPDEF, siE2F2 and siELF3 in MCF-7 cells.}
 
@@ -33,9 +34,16 @@ corresponding constrasts can be retrived by \code{notes(siOTHERS)}.
 Michael NC Fletcher, Mauro AA Castro, Suet-Feung Chin, Oscar Rueda, Xin Wang, Carlos Caldas, Bruce AJ Ponder, Florian Markowetz, Kerstin B Meyer. Master regulators of FGFR2 signalling and breast cancer risk. Nature Communications, 4:2464, 2013.
 }
 
+\note{
+The differential expression analysis documented in the vignette is available at 'siOTHERSlimma'.
+}
+
 \examples{
   data(siOTHERS)
   #notes(siOTHERS)
+  
+  #limma pre-processed dataset
+  #data(siOTHERSlimma)  
 }
 
 \keyword{datasets}

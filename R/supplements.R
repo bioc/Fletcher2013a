@@ -38,66 +38,67 @@ extractResults<-function(myContrasts,contrastsFit,resultsFit){
 #-------------------------------------------------------------------------------
 #Internal function for Fletcher2013a: a simple function plot a summary
 plotExpDeg<-function(results){
-  opt<-c('Exp1limma','Exp2limma','Exp3limma')%in%names(results)
+  opt<-c('info.Exp1limma','info.Exp2limma','info.Exp3limma')%in%names(results)
   elab<-which(opt)
   #------------------------------------
   #plot summary from Exp1
   plot.deg.exp1<-function(results){
     deglist<-results$deglist
+    legs<-c("E2 vs. VEH","E2+FGF10 vs. E2","E2+FGF10+PD vs E2","DT VEH")
+    labs<-c("t6.E2-t6.UT","t24.E2-t24.UT","t6.E2FGF10-t6.E2","t24.E2FGF10-t24.E2",
+            "t6.E2FGF10PD-t6.E2","t24.E2FGF10PD-t24.E2",
+            "t6.UT-t0.UT","t24.UT-t6.UT")
     plotendsum<-function(xx){
-      maior<-1000
+      maior<-1200
       pdf('fig1a.pdf',5,2)
       layout(matrix(c(1,3,5,7,2,4,6,8), 2, 4, byrow=TRUE))
       cols<-c("black","grey")
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2-t6.UT"]][1]
-      x[2]<-xx[["t24.E2-t24.UT"]][1]
+      x[1]<-xx[[labs[1]]][1]
+      x[2]<-xx[[labs[2]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.4, cex.axis=0.8, yaxp=c(0,maior,4), axisnames=FALSE,
-              legend.text=c("E2-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2), axisnames=FALSE)
       mtext("EXP1", col="black", side = 3, line = -1.0, outer = T,cex=0.7,adj = 0,font=2)
+      mtext(legs[1],side=3,line=0,cex=0.5,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2-t6.UT"]][2]
-      x[2]<-xx[["t24.E2-t24.UT"]][2]
+      x[1]<-xx[[labs[1]]][2]
+      x[2]<-xx[[labs[2]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("E2-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2FGF10-t6.E2"]][1]
-      x[2]<-xx[["t24.E2FGF10-t24.E2"]][1]
+      x[1]<-xx[[labs[3]]][1]
+      x[2]<-xx[[labs[4]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),axisnames=FALSE,
-              legend.text=c("FGF10-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[2],side=3,line=0,cex=0.5,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2FGF10-t6.E2"]][2]
-      x[2]<-xx[["t24.E2FGF10-t24.E2"]][2]
+      x[1]<-xx[[labs[3]]][2]
+      x[2]<-xx[[labs[4]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("FGF10-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))  
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))  
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2FGF10PD-t6.E2"]][1]
-      x[2]<-xx[["t24.E2FGF10PD-t24.E2"]][1]
+      x[1]<-xx[[labs[5]]][1]
+      x[2]<-xx[[labs[6]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),
-              axisnames=FALSE,legend.text=c("FGF10.PD-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[3],side=3,line=0,cex=0.5,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2FGF10PD-t6.E2"]][2]
-      x[2]<-xx[["t24.E2FGF10PD-t24.E2"]][2]
+      x[1]<-xx[[labs[5]]][2]
+      x[2]<-xx[[labs[6]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("FGF10.PD-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))  
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))  
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.UT-t0.UT"]][1]
-      x[2]<-xx[["t24.UT-t6.UT"]][1]
+      x[1]<-xx[[labs[7]]][1]
+      x[2]<-xx[[labs[8]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),
-              axisnames=FALSE,legend.text=c("DT-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[4],side=3,line=0,cex=0.5,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.UT-t0.UT"]][2]
-      x[2]<-xx[["t24.UT-t6.UT"]][2]
+      x[1]<-xx[[labs[7]]][2]
+      x[2]<-xx[[labs[8]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("DT-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))
+      legend("bottomleft",legend=c("induced","inhibited"),bty="n",cex=0.7,fill=cols)
       dev.off()
     }
     pos<-unlist(lapply(deglist$pos,length))
@@ -108,77 +109,80 @@ plotExpDeg<-function(results){
     }
     plotendsum(mc)
   }
+  
   #------------------------------------
   #plot summary from Exp2
   plot.deg.exp2<-function(results){
+    legs<-c("E2 vs. VEH","E2+AP20187 vs. E2","E2+AP20187+PD vs. E2", "E2+FGF10 vs. E2", "DT VEH")
+    labs<-c("t6.E2-t6.UT","t24.E2-t24.UT",
+            "t6.E2.AP20187-t6.E2","t24.E2.AP20187-t24.E2",
+            "t6.E2.AP20187.PD-t6.E2","t24.E2.AP20187.PD-t24.E2",
+            "t6.E2.FGF10-t6.E2","t24.E2.FGF10-t24.E2",
+            "t6.UT-t0.UT","t24.UT-t6.UT")
     deglist<-results$deglist
     plotendsum<-function(xx){
       maior<-max(as.data.frame(lapply(mc, sum)))
-      maior<-3500
+      maior<-4400
       pdf('fig2a.pdf',7,2.2)
       layout(matrix(c(1,3,5,7,9,2,4,6,8,10), 2, 5, byrow=TRUE))
       cols<-c("black","grey")
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2-t6.UT"]][1]
-      x[2]<-xx[["t24.E2-t24.UT"]][1]
+      x[1]<-xx[[labs[1]]][1]
+      x[2]<-xx[[labs[2]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.4, cex.axis=0.8, yaxp=c(0,maior,4), axisnames=FALSE,
-              legend.text=c("E2-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2), axisnames=FALSE)
       mtext("EXP2", col="black", side = 3, line = -1.0, outer = T,cex=0.7,adj = 0,font=2)
+      mtext(legs[1],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2-t6.UT"]][2]
-      x[2]<-xx[["t24.E2-t24.UT"]][2]
+      x[1]<-xx[[labs[1]]][2]
+      x[2]<-xx[[labs[2]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("E2-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.AP20187-t6.E2"]][1]
-      x[2]<-xx[["t24.E2.AP20187-t24.E2"]][1]
+      x[1]<-xx[[labs[3]]][1]
+      x[2]<-xx[[labs[4]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),axisnames=FALSE,
-              legend.text=c("AP20187-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[2],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.AP20187-t6.E2"]][2]
-      x[2]<-xx[["t24.E2.AP20187-t24.E2"]][2]
+      x[1]<-xx[[labs[3]]][2]
+      x[2]<-xx[[labs[4]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("AP20187-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.AP20187.PD-t6.E2"]][1]
-      x[2]<-xx[["t24.E2.AP20187.PD-t24.E2"]][1]
+      x[1]<-xx[[labs[5]]][1]
+      x[2]<-xx[[labs[6]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),axisnames=FALSE,
-              legend.text=c("AP20187.PD-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[3],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.AP20187.PD-t6.E2"]][2]
-      x[2]<-xx[["t24.E2.AP20187.PD-t24.E2"]][2]
+      x[1]<-xx[[labs[5]]][2]
+      x[2]<-xx[[labs[6]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("AP20187.PD-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))  
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))  
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.FGF10-t6.E2"]][1]
-      x[2]<-xx[["t24.E2.FGF10-t24.E2"]][1]
+      x[1]<-xx[[labs[7]]][1]
+      x[2]<-xx[[labs[8]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),axisnames=FALSE,
-              legend.text=c("FGF10-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[4],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.E2.FGF10-t6.E2"]][2]
-      x[2]<-xx[["t24.E2.FGF10-t24.E2"]][2]
+      x[1]<-xx[[labs[7]]][2]
+      x[2]<-xx[[labs[8]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("FGF10-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))  
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))  
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.UT-t0.UT"]][1]
-      x[2]<-xx[["t24.UT-t6.UT"]][1]
+      x[1]<-xx[[labs[9]]][1]
+      x[2]<-xx[[labs[10]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0, maior,4),axisnames=FALSE,
-              legend.text=c("DT-induced"), args.legend=list(x="topleft", bty="n", cex=0.8))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0, maior), cex.names=1.0, cex.axis=0.9, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[5],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t6=NA, t24=NA)
-      x[1]<-xx[["t6.UT-t0.UT"]][2]
-      x[2]<-xx[["t24.UT-t6.UT"]][2]
+      x[1]<-xx[[labs[9]]][2]
+      x[2]<-xx[[labs[10]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("DT-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=0.8))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.9, yaxp=c(-maior,0,2))
+      legend("bottomleft",legend=c("induced","inhibited"),bty="n",cex=0.9,fill=cols)
       dev.off()
     }
     pos<-unlist(lapply(deglist$pos,length))
@@ -193,7 +197,12 @@ plotExpDeg<-function(results){
   #plot summary from Exp3
   plot.deg.exp3<-function(results){
     deglist<-results$deglist
-    plotendsum<-function(expname,xx,labs,dtlab="DT-induced"){
+    plotendsum<-function(expname,xx,labs,legs=1){
+      if(legs==1){
+        legs<-c("E2 vs. VEH","E2+FGF10 vs. E2", "DT VEH")
+      } else {
+        legs<-c("E2 vs. E2","E2+FGF10 vs. E2+FGF10", "VEH vs. VEH")
+      }
       maior<-2000
       cols<-c("black","grey")
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
@@ -202,50 +211,48 @@ plotExpDeg<-function(results){
       x[3]<-xx[[labs[3]]][1]
       x[4]<-xx[[labs[4]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0,maior,4),axisnames=FALSE,
-              legend.text=c("E2-induced"), args.legend=list(x="topleft", bty="n", cex=1.0))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=1.0, cex.axis=0.85, yaxp=c(0,maior,2),axisnames=FALSE)
       mtext("EXP3", col="black", side = 3, line = -1.0, outer = T,cex=0.7,adj = 0,font=2)
+      mtext(legs[1],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
       x[1]<-xx[[labs[1]]][2]
       x[2]<-xx[[labs[2]]][2]
       x[3]<-xx[[labs[3]]][2]
       x[4]<-xx[[labs[4]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("E2-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=1.0))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.85, yaxp=c(-maior,0,2))
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
       x[1]<-xx[[labs[5]]][1]
       x[2]<-xx[[labs[6]]][1]
       x[3]<-xx[[labs[7]]][1]
       x[4]<-xx[[labs[8]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0,maior,4),axisnames=FALSE,
-              legend.text=c("FGF10-induced"), args.legend=list(x="topleft", bty="n", cex=1.0))
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=1.0, cex.axis=0.85, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[2],side=3,line=0,cex=0.6,adj=0)
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
       x[1]<-xx[[labs[5]]][2]
       x[2]<-xx[[labs[6]]][2]
       x[3]<-xx[[labs[7]]][2]
       x[4]<-xx[[labs[8]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=c("FGF10-inhibited"), args.legend=list(x="bottomleft", bty="n", cex=1.0))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.85, yaxp=c(-maior,0,2))
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
       x[1]<-xx[[labs[9]]][1]
       x[2]<-xx[[labs[10]]][1]
       x[3]<-xx[[labs[11]]][1]
       x[4]<-xx[[labs[12]]][1]
       par(mar=c(0.2, 2.1, 2.1, 2.1))
-      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=0.8, cex.axis=0.8, yaxp=c(0,maior,4),axisnames=FALSE,
-              legend.text=dtlab, args.legend=list(x="topleft", bty="n", cex=1.0))
-      mtext(expname, col="black", side = 3, line = 0.5, outer = F,cex=0.7,adj = 1,font=2)
+      barplot(x,col=cols[1], horiz=FALSE, ylim=c(0,maior), cex.names=1.0, cex.axis=0.85, yaxp=c(0,maior,2),axisnames=FALSE)
+      mtext(legs[3],side=3,line=0,cex=0.6,adj=0)
+      mtext(expname, col="black", side = 4, line = 0.5, outer = F,cex=0.7,adj = 1,font=2)
       x<-cbind(t3=NA, t6=NA, t12=NA, t24=NA)
       x[1]<-xx[[labs[9]]][2]
       x[2]<-xx[[labs[10]]][2]
       x[3]<-xx[[labs[11]]][2]
       x[4]<-xx[[labs[12]]][2]
       par(mar=c(2.1, 2.1, 0.2, 2.1))
-      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=0.8, cex.axis=0.8, yaxp=c(-maior,0,4),
-              legend.text=dtlab, args.legend=list(x="bottomleft", bty="n", cex=1.0))
+      barplot(-x,col=cols[2], horiz=FALSE, ylim=c(-maior,0), cex.names=1.0, cex.axis=0.85, yaxp=c(-maior,0,2))
+      legend("bottomleft",legend=c("induced","inhibited"),bty="n",cex=0.9,fill=cols)
     }
     pos<-unlist(lapply(deglist$pos,length))
     neg<-unlist(lapply(deglist$neg,length))
@@ -253,13 +260,13 @@ plotExpDeg<-function(results){
     for(i in names(deglist$all)){
       mc[[i]]<-c(pos[[i]],neg[[i]])
     }
-    pdf('fig3a.pdf',width=5,height=6)
+    pdf('fig3a.pdf',width=5,height=6.2)
     tp<-c(1,3,5,2,4,6)
     layout(matrix(c(tp,tp+6,tp+12), 6, 3, byrow=TRUE))
     labs<-names(mc)
     plotendsum("MinusTet",mc,labs[c(9,11,13,15,10,12,14,16,1,2,3,4)])
     plotendsum("PlusTet",mc,labs[c(17,19,21,23,18,20,22,24,5,6,7,8)])
-    plotendsum("PlusTet.vs.MinusTet", mc,labs[c(26,29,32,35,27,30,33,36,25,28,31,34)],"VEH-induced")
+    plotendsum("PlusTet vs. MinusTet", mc,labs[c(26,29,32,35,27,30,33,36,25,28,31,34)],legs=2)
     dev.off()
   }
   if(elab==1){
